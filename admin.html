@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - La Barbacoa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <button id="logout-btn">Cerrar Sesión</button>
+    </nav>
+
+    <div class="admin-container">
+        <h1>Panel de Administración</h1>
+        
+        <!-- Formulario para agregar productos -->
+        <form id="form-producto">
+            <input type="text" id="nombre" placeholder="Nombre del plato" required>
+            <textarea id="descripcion" placeholder="Descripción"></textarea>
+            <input type="number" id="precio" placeholder="Precio (ARS)" required>
+            <button type="submit">Guardar Producto</button>
+        </form>
+
+        <!-- Lista de productos existentes -->
+        <div id="lista-productos" class="platos"></div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Barbacoa | Tradición Argentina</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="menu-toggle">☰</button>
+        <ul class="menu">
+            <li><a href="#menu">Menú</a></li>
+            <li><a href="#historia">Historia</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#login">Acceso Admin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+        <h1 class="titulo-principal">LA BARBACOA</h1>
+        <p class="subtitulo">Tradición y sabor desde 1985</p>
+    </header>
+
+    <!-- Menú -->
+    <section id="menu" class="seccion">
+        <h2>Nuestro Menú</h2>
+        <div class="platos" id="platos-container">
+            <!-- Los platos se cargarán dinámicamente con JS -->
+        </div>
+    </section>
+
+    <!-- Historia -->
+    <section id="historia" class="seccion">
+        <h2>Historia de la Barbacoa</h2>
+        <div class="historia-texto">
+            <p>La barbacoa es mucho más que una simple técnica para cocinar carne al fuego...</p>
+            <!-- Texto completo aquí -->
+        </div>
+    </section>
+
+    <!-- Contacto -->
+   <!-- Reemplaza la sección de contacto con esto -->
+<section id="contacto" class="seccion contacto-section">
+    <div class="contacto-container">
+        <div class="contacto-info">
+            <h2><i class="fas fa-envelope-open-text"></i> Contáctanos</h2>
+            <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <p>+54 11 1234-5678</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <p>reservas@labarbacoa.com</p>
+            </div>
+            
+                
+            
+            <div class="redes-sociales">
+                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        
+        <form class="contacto-form">
+            <h3><i class="fas fa-paper-plane"></i> Envíanos un mensaje</h3>
+            <div class="form-group">
+                <input type="text" placeholder="Nombre completo" required>
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Correo electrónico" required>
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="form-group">
+                <input type="tel" placeholder="Teléfono (opcional)">
+                <i class="fas fa-phone"></i>
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Tu mensaje..." required></textarea>
+                <i class="fas fa-comment-dots"></i>
+            </div>
+            <button type="submit" class="btn-enviar">
+                <i class="fas fa-paper-plane"></i> Enviar Mensaje
+            </button>
+        </form>
+    </div>
+</section>
+        </form>
+    </section>
+
+ <!-- Reemplaza la sección login con esto -->
+<section id="login" class="seccion login-section">
+    <div class="login-container">
+        <h2><i class="fas fa-lock"></i> Acceso Administrador</h2>
+        <form id="loginAdminForm">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="adminUser" placeholder="Usuario" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-key"></i>
+                <input type="password" id="adminPass" placeholder="Contraseña" required>
+            </div>
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+        </form>
+        <p id="loginAdminError" class="error-message"></p>
+    </div>
+</section>
+<!-- Agrega esto después de la sección de contacto -->
+<section id="ubicacion" class="seccion ubicacion-section">
+    <h2><i class="fas fa-map-marker-alt"></i> Visítanos</h2>
+    <div class="ubicacion-container">
+        <div class="mapa">
+            <!-- Iframe de Google Maps -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889454!2d-58.383759!3d-34.603734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjQiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1620000000000!5m2!1ses!2sar" 
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="info-ubicacion">
+            <h3><i class="fas fa-store"></i> La Barbacoa</h3>
+            <p><i class="fas fa-map-pin"></i> Av. Corrientes 1234, Buenos Aires</p>
+            <p><i class="fas fa-clock"></i> Horarios:</p>
+            <ul class="horarios">
+                <li>Lunes a Viernes: 12:00 - 16:00 / 20:00 - 00:00</li>
+                <li>Sábados y Domingos: 12:00 - 01:00</li>
+            </ul>
+            <div class="transportes">
+                <p><i class="fas fa-subway"></i> Línea B - Estación Carlos Gardel</p>
+                <p><i class="fas fa-bus"></i> Líneas 24, 71, 168</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <script src="public.js"></script>
+  
+    <head>
+    <!-- Agrega esto -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+</body>
+</html>
