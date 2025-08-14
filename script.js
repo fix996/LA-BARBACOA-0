@@ -1,157 +1,354 @@
-// Carga dinámica del menú desde localStorage
-function cargarMenu() {
-    const productos = JSON.parse(localStorage.getItem("productos")) || [
-        { nombre: "Tacos de Barbacoa", descripcion: "Carne tradicional con cebolla y cilantro.", precio: 1500 },
-        { nombre: "Asado Argentino", descripcion: "Cortes seleccionados con chimichurri.", precio: 3000 }
-    ];
-    
-    const contenedor = document.getElementById('platos-container');
-    contenedor.innerHTML = "";
-    
-    productos.forEach(plato => {
-        contenedor.innerHTML += `
-            <div class="plato">
-                <h3>${plato.nombre}</h3>
-                <p>${plato.descripcion}</p>
-                <p class="precio">$${plato.precio} ARS</p>
-            </div>
-        `;
-    });
-}
+/* ==========
+   UTIL / STATE
+========== */
+const qs = (s, sc=document)=>sc.querySelector(s);
+const qsa = (s, sc=document)=>[...sc.querySelectorAll(s)];
 
-// Navbar móvil
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('.menu');
-
-    if (toggleBtn && menu) {
-        toggleBtn.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    }
-
-    // Login
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const usuario = document.getElementById('usuario').value;
-            const contrasena = document.getElementById('password').value;
-
-            if (usuario === "admin" && contrasena === "admin123") {
-                window.location.href = "admin.html";
-            } else {
-                document.getElementById('error-login').style.display = 'block';
-            }
-        });
-    }
-
-    cargarMenu();
-});
-// Agrega esto al final de tu public.js
-document.addEventListener('DOMContentLoaded', function() {
-    // Efecto hover para los botones
-    const buttons = document.querySelectorAll('button, .btn-login');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px)';
-            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-        });
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        });
-    });
-
-    // Animación para el formulario de login
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Agrega animación de carga
-            const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
-            submitBtn.disabled = true;
-            
-            // Simula verificación (en producción sería una llamada real)
-            setTimeout(() => {
-                const usuario = document.getElementById('usuario').value;
-                const contrasena = document.getElementById('password').value;
-                
-                if (usuario === "admin" && contrasena === "admin123") {
-                    window.location.href = "admin.html";
-                } else {
-                    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingresar';
-                    submitBtn.disabled = false;
-                    document.getElementById('error-login').style.display = 'block';
-                    
-                    // Animación de error
-                    loginForm.classList.add('shake');
-                    setTimeout(() => {
-                        loginForm.classList.remove('shake');
-                    }, 500);
-                }
-            }, 1000);
-        });
-    }
-});// Credenciales válidas (cámbialas luego)
-const ADMIN_CREDENTIALS = {
-    user: "admin",
-    pass: "admin123"
+const STORAGE_KEYS = {
+  products: 'bbq_products',
+  isAdmin: 'bbq_is_admin'
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const user = document.getElementById('inputUser').value;
-            const password = document.getElementById('inputPassword').value;
-            const errorElement = document.getElementById('loginError');
-            const loginButton = document.getElementById('loginButton');
-            
-            // Mostrar estado de carga
-            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
-            loginButton.disabled = true;
-            
-            // Simular validación (en producción sería una llamada real)
-            setTimeout(() => {
-                if (user === ADMIN_CREDENTIALS.user && password === ADMIN_CREDENTIALS.pass) {
-                    // Guardar estado de login
-                    sessionStorage.setItem('isAuthenticated', 'true');
-                    // Redirigir al panel admin
-                    window.location.href = 'admin.html';
-                } else {
-                    // Mostrar error
-                    errorElement.textContent = 'Credenciales incorrectas';
-                    errorElement.style.display = 'block';
-                    loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Ingresar';
-                    loginButton.disabled = false;
-                    
-                    // Animación de error
-                    loginForm.classList.add('shake');
-                    setTimeout(() => {
-                        loginForm.classList.remove('shake');
-                    }, 500);
-                }
-            }, 800); // Retraso simulado
-        });
-    }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    // Verificar autenticación
-    if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-        window.location.href = 'index.html';
-        return;
-    }
+const DEMO_PRODUCTS = [
+  {
+    id: crypto.randomUUID(),
+    name: 'BBQ Burger',
+    desc: 'Carne smash, cheddar, cebolla crispy, pepinillos y salsa BBQ.',
+    price: 9.99,
+    category: 'burgers',
+    img: 'https://images.unsplash.com/photo-1550547660-d9450f859349'
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'Costillas BBQ',
+    desc: 'Cocinadas a fuego lento con glaze de barbacoa casera.',
+    price: 14.99,
+    category: 'ribs',
+    img: 'https://images.unsplash.com/photo-1606755962773-d324e0a13026'
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'Papas Cajún',
+    desc: 'Corte clásico, especias cajún y alioli de ajo asado.',
+    price: 4.49,
+    category: 'sides',
+    img: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f'
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'Milkshake Vainilla',
+    desc: 'Helado artesanal, crema batida y sirope.',
+    price: 4.99,
+    category: 'drinks',
+    img: 'https://images.unsplash.com/photo-1625861917138-13a7a2f5e5a2'
+  },
+  {
+    id: crypto.randomUUID(),
+    name: 'Doble Smash',
+    desc: 'Doble carne smash, doble cheddar y salsa especial.',
+    price: 11.99,
+    category: 'burgers',
+    img: 'https://images.unsplash.com/photo-1601924928376-3cc3b37d8a12'
+  }
+];
 
-    // Configurar logout
-    document.getElementById('logout-btn').addEventListener('click', function() {
-        sessionStorage.removeItem('isAuthenticated');
-        window.location.href = 'index.html';
+function getProducts(){
+  const raw = localStorage.getItem(STORAGE_KEYS.products);
+  return raw ? JSON.parse(raw) : [];
+}
+function setProducts(arr){
+  localStorage.setItem(STORAGE_KEYS.products, JSON.stringify(arr));
+}
+function ensureSeed(){
+  if(getProducts().length === 0){ setProducts(DEMO_PRODUCTS); }
+}
+function isAdmin(){
+  return localStorage.getItem(STORAGE_KEYS.isAdmin) === 'true';
+}
+function setAdmin(flag){
+  localStorage.setItem(STORAGE_KEYS.isAdmin, flag ? 'true' : 'false');
+}
+
+/* ==========
+   NAV / DRAWER
+========== */
+const drawer = qs('#drawer');
+const burgerBtn = qs('#hamburger');
+const loginLink = qs('#loginLink');
+const adminLink = qs('#adminLink');
+const logoutBtn = qs('#logoutBtn');
+
+function setDrawer(open){
+  drawer.classList.toggle('open', !!open);
+  burgerBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+}
+burgerBtn.addEventListener('click', ()=> setDrawer(!drawer.classList.contains('open')));
+qsa('.drawer-link').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    const goto = a.dataset.goto;
+    if (goto) { showSection(goto); }
+    setDrawer(false);
+  });
+});
+
+function syncNav(){
+  if(isAdmin()){
+    adminLink.hidden = false;
+    logoutBtn.hidden = false;
+    loginLink.textContent = 'Sesión iniciada';
+    loginLink.style.pointerEvents = 'none';
+    loginLink.style.opacity = .6;
+  }else{
+    adminLink.hidden = true;
+    logoutBtn.hidden = true;
+    loginLink.textContent = 'Inicio de sesión';
+    loginLink.style.pointerEvents = 'auto';
+    loginLink.style.opacity = 1;
+  }
+}
+logoutBtn.addEventListener('click', ()=>{
+  setAdmin(false);
+  syncNav();
+  showSection('inicio');
+});
+
+/* ==========
+   SECCIONES (SPA simple)
+========== */
+const sections = qsa('main > .section');
+function showSection(id){
+  sections.forEach(s=> s.style.display = (s.id === id) ? 'block' : 'none');
+  // scroll a top para mejor UX
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function initSections(){
+  sections.forEach(s=> s.style.display = 'none');
+  showSection('inicio');
+}
+
+/* ==========
+   MENÚ / LISTADO DE PRODUCTOS
+========== */
+const grid = qs('#productsGrid');
+const filterChips = qsa('.chip');
+
+function renderMenu(filter='all'){
+  const data = getProducts();
+  grid.innerHTML = '';
+  const filtered = data.filter(p => filter === 'all' ? true : p.category === filter);
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="card muted">Sin productos en esta categoría.</div>`;
+    return;
+  }
+
+  filtered.forEach(p=>{
+    const card = document.createElement('article');
+    card.className = 'product card';
+    card.innerHTML = `
+      <img class="thumb" src="${p.img}" alt="${p.name}"/>
+      <div>
+        <div class="meta">
+          <h3>${p.name}</h3>
+          <div class="price">$${Number(p.price).toFixed(2)}</div>
+        </div>
+        <p class="muted small">${p.desc}</p>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+filterChips.forEach(ch=>{
+  ch.addEventListener('click', ()=>{
+    filterChips.forEach(c=>c.classList.remove('active'));
+    ch.classList.add('active');
+    renderMenu(ch.dataset.filter);
+  });
+});
+
+/* ==========
+   LOGIN (DEMO)
+========== */
+const loginForm = qs('#loginForm');
+const loginMsg = qs('#loginMsg');
+
+loginForm?.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const user = qs('#user').value.trim();
+  const pass = qs('#pass').value.trim();
+
+  if(user === 'admin' && pass === '1234'){
+    setAdmin(true);
+    loginMsg.textContent = 'Ingreso correcto. Redirigiendo...';
+    loginMsg.className = 'msg ok';
+    syncNav();
+    setTimeout(()=> showSection('admin'), 400);
+  }else{
+    loginMsg.textContent = 'Usuario o contraseña incorrectos.';
+    loginMsg.className = 'msg err';
+  }
+});
+
+/* ==========
+   ADMIN: CRUD
+========== */
+const adminTable = qs('#adminTable');
+const seedBtn = qs('#seedBtn');
+
+const form = qs('#productForm');
+const idInput = qs('#productId');
+const nameInput = qs('#name');
+const priceInput = qs('#price');
+const catInput = qs('#category');
+const descInput = qs('#desc');
+const imgInput = qs('#img');
+const formMsg = qs('#formMsg');
+const cancelEditBtn = qs('#cancelEdit');
+const saveBtn = qs('#saveBtn');
+
+function adminGuard(){
+  if(!isAdmin()){
+    showSection('login');
+    return false;
+  }
+  return true;
+}
+
+function renderAdminTable(){
+  if(!adminGuard()) return;
+  const data = getProducts();
+  adminTable.innerHTML = '';
+  if(data.length === 0){
+    adminTable.innerHTML = `<div class="card muted">No hay productos. Presioná "Cargar ejemplos" o agregá uno.</div>`;
+    return;
+  }
+  data.forEach(p=>{
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `
+      <img src="${p.img}" alt="${p.name}"/>
+      <div><strong>${p.name}</strong><div class="muted small">${p.category}</div></div>
+      <div class="muted small">${p.desc}</div>
+      <div><strong>$${Number(p.price).toFixed(2)}</strong></div>
+      <div class="row-actions">
+        <button class="btn small" data-edit="${p.id}">Editar</button>
+        <button class="btn small danger" data-del="${p.id}">Borrar</button>
+      </div>
+    `;
+    adminTable.appendChild(row);
+  });
+
+  // acciones
+  qsa('[data-edit]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.getAttribute('data-edit');
+      startEdit(id);
     });
+  });
+  qsa('[data-del]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const id = b.getAttribute('data-del');
+      delProduct(id);
+    });
+  });
+}
 
-    // Resto de tu lógica de admin...
+seedBtn?.addEventListener('click', ()=>{
+  setProducts(DEMO_PRODUCTS);
+  renderAdminTable();
+  renderMenu(qs('.chip.active')?.dataset.filter || 'all');
 });
+
+function resetForm(){
+  form.reset();
+  idInput.value = '';
+  cancelEditBtn.hidden = true;
+  saveBtn.textContent = 'Guardar';
+  formMsg.textContent = '';
+  formMsg.className = 'msg';
+}
+
+function startEdit(id){
+  const data = getProducts();
+  const p = data.find(x=>x.id === id);
+  if(!p) return;
+  idInput.value = p.id;
+  nameInput.value = p.name;
+  priceInput.value = p.price;
+  catInput.value = p.category;
+  descInput.value = p.desc;
+  imgInput.value = p.img;
+  cancelEditBtn.hidden = false;
+  saveBtn.textContent = 'Actualizar';
+  showSection('admin');
+  formMsg.textContent = 'Editando producto…';
+  formMsg.className = 'msg';
+}
+
+cancelEditBtn?.addEventListener('click', (e)=>{
+  e.preventDefault();
+  resetForm();
+});
+
+function delProduct(id){
+  if(!confirm('¿Eliminar producto?')) return;
+  const data = getProducts().filter(p=> p.id !== id);
+  setProducts(data);
+  renderAdminTable();
+  renderMenu(qs('.chip.active')?.dataset.filter || 'all');
+}
+
+form?.addEventListener('submit', (e)=>{
+  e.preventDefault();
+  if(!adminGuard()) return;
+
+  const payload = {
+    id: idInput.value || crypto.randomUUID(),
+    name: nameInput.value.trim(),
+    desc: descInput.value.trim(),
+    price: parseFloat(priceInput.value),
+    category: catInput.value,
+    img: imgInput.value.trim()
+  };
+
+  if(!payload.name || isNaN(payload.price) || !payload.img){
+    formMsg.textContent = 'Completá nombre, precio e imagen válidos.';
+    formMsg.className = 'msg err';
+    return;
+  }
+
+  const data = getProducts();
+  const idx = data.findIndex(p=>p.id === payload.id);
+  if(idx >= 0){ data[idx] = payload; } else { data.unshift(payload); }
+  setProducts(data);
+
+  formMsg.textContent = idx >= 0 ? 'Producto actualizado.' : 'Producto agregado.';
+  formMsg.className = 'msg ok';
+
+  renderAdminTable();
+  renderMenu(qs('.chip.active')?.dataset.filter || 'all');
+  resetForm();
+});
+
+/* ==========
+   INIT
+========== */
+function init(){
+  ensureSeed();
+  initSections();
+  syncNav();
+  renderMenu('all');
+  // Admin: si ya está logueado y entra al panel
+  if(isAdmin()){
+    showSection('admin');
+    renderAdminTable();
+  }
+  // Navegar por hash (? opcional)
+  window.addEventListener('hashchange', ()=>{
+    const id = location.hash.replace('#','');
+    if(id){ showSection(id); if(id==='admin'){ renderAdminTable(); } }
+  });
+}
+document.addEventListener('DOMContentLoaded', init);
