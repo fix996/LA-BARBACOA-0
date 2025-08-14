@@ -1,147 +1,172 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Barbacoa | Tradición Argentina</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Barbacoa USA</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <button class="menu-toggle">☰</button>
-        <ul class="menu">
-            <li><a href="#menu">Menú</a></li>
-            <li><a href="#historia">Historia</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-            <li><a href="#login">Acceso Admin</a></li>
-        </ul>
-    </nav>
+  <!-- NAV SUPERIOR -->
+  <nav class="topbar">
+    <div class="brand">
+      <span class="logo">🔥</span>
+      <span>La Barbacoa USA</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-    <!-- Hero Section -->
-    <header>
-        <h1 class="titulo-principal">LA BARBACOA</h1>
-        <p class="subtitulo">Tradición y sabor desde 1985</p>
-    </header>
+  <!-- DRAWER / MENÚ HAMBURGUESA -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <a class="drawer-link" data-goto="inicio">Inicio</a>
+    <a class="drawer-link" data-goto="menu">Menú</a>
+    <a class="drawer-link" data-goto="mapa">Mapa</a>
+    <a class="drawer-link" data-goto="login" id="loginLink">Inicio de sesión</a>
+    <a class="drawer-link admin-only" data-goto="admin" id="adminLink" hidden>Panel admin</a>
+    <a class="drawer-link admin-only" id="logoutBtn" hidden>Cerrar sesión</a>
+  </aside>
 
-    <!-- Menú -->
-    <section id="menu" class="seccion">
-        <h2>Nuestro Menú</h2>
-        <div class="platos" id="platos-container">
-            <!-- Los platos se cargarán dinámicamente con JS -->
-        </div>
+  <!-- CONTENIDO -->
+  <main>
+    <!-- INICIO -->
+    <section id="inicio" class="section hero">
+      <div class="hero-content">
+        <h1>Auténtico Sabor Americano</h1>
+        <p>Brisket ahumado, ribs con salsa BBQ casera y burgers smash. <br/>Rápido, moderno y 100% real.</p>
+        <a class="btn primary" data-goto="menu">Ver menú</a>
+      </div>
     </section>
 
-    <!-- Historia -->
-    <section id="historia" class="seccion">
-        <h2>Historia de la Barbacoa</h2>
-        <div class="historia-texto">
-            <p>La barbacoa es mucho más que una simple técnica para cocinar carne al fuego...</p>
-            <!-- Texto completo aquí -->
+    <!-- MENÚ (CATÁLOGO) -->
+    <section id="menu" class="section">
+      <header class="section-header">
+        <h2>Menú</h2>
+        <div class="filters">
+          <button class="chip active" data-filter="all">Todo</button>
+          <button class="chip" data-filter="burgers">Burgers</button>
+          <button class="chip" data-filter="ribs">Ribs</button>
+          <button class="chip" data-filter="sides">Acompañamientos</button>
+          <button class="chip" data-filter="drinks">Bebidas</button>
         </div>
+      </header>
+      <div class="grid" id="productsGrid">
+        <!-- JS renderiza los productos -->
+      </div>
+      <div class="cta-row">
+        <a href="https://wa.me/5491123456789?text=Hola%20quiero%20hacer%20un%20pedido%20en%20La%20Barbacoa%20USA" class="btn wide">📲 Pedido rápido</a>
+      </div>
     </section>
 
-    <!-- Contacto -->
-   <!-- Reemplaza la sección de contacto con esto -->
-<section id="contacto" class="seccion contacto-section">
-    <div class="contacto-container">
-        <div class="contacto-info">
-            <h2><i class="fas fa-envelope-open-text"></i> Contáctanos</h2>
-            <div class="info-item">
-                <i class="fas fa-phone-alt"></i>
-                <p>+54 11 1234-5678</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-envelope"></i>
-                <p>reservas@labarbacoa.com</p>
-            </div>
-            
-                
-            
-            <div class="redes-sociales">
-                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            </div>
+    <!-- MAPA -->
+    <section id="mapa" class="section">
+      <header class="section-header">
+        <h2>Encontranos</h2>
+      </header>
+      <div class="map-wrap">
+        <iframe
+          title="Mapa La Barbacoa USA"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Texas%20BBQ&output=embed">
+        </iframe>
+        <div class="map-info">
+          <h3>Horarios</h3>
+          <ul>
+            <li>Lun-Jue: 12:00–23:00</li>
+            <li>Vie-Sáb: 12:00–01:00</li>
+            <li>Dom: 12:00–22:00</li>
+          </ul>
+          <p class="muted">Reservas y pedidos por WhatsApp.</p>
         </div>
-        
-        <form class="contacto-form">
-            <h3><i class="fas fa-paper-plane"></i> Envíanos un mensaje</h3>
-            <div class="form-group">
-                <input type="text" placeholder="Nombre completo" required>
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="form-group">
-                <input type="email" placeholder="Correo electrónico" required>
-                <i class="fas fa-envelope"></i>
-            </div>
-            <div class="form-group">
-                <input type="tel" placeholder="Teléfono (opcional)">
-                <i class="fas fa-phone"></i>
-            </div>
-            <div class="form-group">
-                <textarea placeholder="Tu mensaje..." required></textarea>
-                <i class="fas fa-comment-dots"></i>
-            </div>
-            <button type="submit" class="btn-enviar">
-                <i class="fas fa-paper-plane"></i> Enviar Mensaje
-            </button>
-        </form>
-    </div>
-</section>
-        </form>
+      </div>
     </section>
 
- <!-- Reemplaza la sección login con esto -->
-<section id="login" class="seccion login-section">
-    <div class="login-container">
-        <h2><i class="fas fa-lock"></i> Acceso Administrador</h2>
-        <form id="loginAdminForm">
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="adminUser" placeholder="Usuario" required>
-            </div>
-            <div class="input-group">
-                <i class="fas fa-key"></i>
-                <input type="password" id="adminPass" placeholder="Contraseña" required>
-            </div>
-            <button type="submit" class="btn-login">
-                <i class="fas fa-sign-in-alt"></i> Ingresar
-            </button>
-        </form>
-        <p id="loginAdminError" class="error-message"></p>
-    </div>
-</section>
-<!-- Agrega esto después de la sección de contacto -->
-<section id="ubicacion" class="seccion ubicacion-section">
-    <h2><i class="fas fa-map-marker-alt"></i> Visítanos</h2>
-    <div class="ubicacion-container">
-        <div class="mapa">
-            <!-- Iframe de Google Maps -->
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889454!2d-58.383759!3d-34.603734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjQiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1620000000000!5m2!1ses!2sar" 
-                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <div class="info-ubicacion">
-            <h3><i class="fas fa-store"></i> La Barbacoa</h3>
-            <p><i class="fas fa-map-pin"></i> Av. Corrientes 1234, Buenos Aires</p>
-            <p><i class="fas fa-clock"></i> Horarios:</p>
-            <ul class="horarios">
-                <li>Lunes a Viernes: 12:00 - 16:00 / 20:00 - 00:00</li>
-                <li>Sábados y Domingos: 12:00 - 01:00</li>
-            </ul>
-            <div class="transportes">
-                <p><i class="fas fa-subway"></i> Línea B - Estación Carlos Gardel</p>
-                <p><i class="fas fa-bus"></i> Líneas 24, 71, 168</p>
-            </div>
-        </div>
-    </div>
-</section>
+    <!-- LOGIN -->
+    <section id="login" class="section">
+      <header class="section-header">
+        <h2>Inicio de sesión</h2>
+      </header>
+      <form id="loginForm" class="card form">
+        <label>
+          Usuario
+          <input type="text" id="user" placeholder="admin" autocomplete="username"/>
+        </label>
+        <label>
+          Contraseña
+          <input type="password" id="pass" placeholder="••••" autocomplete="current-password"/>
+        </label>
+        <button type="submit" class="btn primary">Ingresar</button>
+        <p class="muted small">Demo: <b>admin</b> / <b>1234</b></p>
+        <p id="loginMsg" class="msg"></p>
+      </form>
+    </section>
 
-    <script src="public.js"></script>
-  
-    <head>
-    <!-- Agrega esto -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+    <!-- ADMIN -->
+    <section id="admin" class="section" hidden>
+      <header class="section-header">
+        <h2>Panel administrador</h2>
+        <p class="muted">Agregá, editá o eliminá productos. (Demo con almacenamiento local)</p>
+      </header>
+
+      <div class="admin-layout">
+        <!-- FORMULARIO -->
+        <form id="productForm" class="card form">
+          <input type="hidden" id="productId"/>
+          <div class="form-row">
+            <label>
+              Nombre
+              <input type="text" id="name" placeholder="BBQ Burger" required/>
+            </label>
+            <label>
+              Precio (USD)
+              <input type="number" step="0.01" id="price" placeholder="9.99" required/>
+            </label>
+          </div>
+          <label>
+            Categoría
+            <select id="category" required>
+              <option value="burgers">Burgers</option>
+              <option value="ribs">Ribs</option>
+              <option value="sides">Acompañamientos</option>
+              <option value="drinks">Bebidas</option>
+            </select>
+          </label>
+          <label>
+            Descripción
+            <textarea id="desc" rows="3" placeholder="Carne jugosa, cheddar, cebolla crispy y salsa BBQ." required></textarea>
+          </label>
+          <label>
+            URL de imagen
+            <input type="url" id="img" placeholder="https://.../burger.jpg" required/>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary" id="saveBtn">Guardar</button>
+            <button type="reset" class="btn ghost" id="cancelEdit" hidden>Cancelar edición</button>
+          </div>
+          <p id="formMsg" class="msg"></p>
+        </form>
+
+        <!-- LISTADO -->
+        <div class="card">
+          <div class="table-head">
+            <h3>Productos</h3>
+            <button class="btn small" id="seedBtn">Cargar ejemplos</button>
+          </div>
+          <div class="table" id="adminTable">
+            <!-- JS renderiza filas -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2025 La Barbacoa ARG — Demo creada por mi negocio en web
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
