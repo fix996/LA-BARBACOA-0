@@ -1,171 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>La Barbacoa USA</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Barbacoa - Restaurante</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- NAV SUPERIOR -->
-  <nav class="topbar">
-    <div class="brand">
-      <span class="logo">🔥</span>
-      <span>La Barbacoa USA</span>
+  <!-- Overlay de bloqueo -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Botón de emergencia para cerrar modales -->
+  <button class="emergency-close" id="emergency-close" title="Cerrar todo">X</button>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">🔥 La Barbacoa</div>
+      <button class="menu-toggle">☰</button>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#menu">Menú</a></li>
+        <li><a href="#ubicacion">Ubicación</a></li>
+        <li><a href="#login">Acceso Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="inicio" class="hero">
+    <h1>Bienvenidos a La Barbacoa</h1>
+    <p>El mejor sabor en Cruz del Eje</p>
+  </section>
+
+  <!-- Menú -->
+  <section id="menu" class="menu-section">
+    <h2>🍽 Nuestro Menú</h2>
+    <div class="categories">
+      <button class="category-btn active" data-category="Pizzas">Pizzas</button>
+      <button class="category-btn" data-category="Parrilla">Parrilla</button>
+      <button class="category-btn" data-category="Bebidas">Bebidas</button>
+      <button class="category-btn" data-category="Postres">Postres</button>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+    <div id="menu-items" class="menu-items"></div>
+  </section>
 
-  <!-- DRAWER / MENÚ HAMBURGUESA -->
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <a class="drawer-link" data-goto="inicio">Inicio</a>
-    <a class="drawer-link" data-goto="menu">Menú</a>
-    <a class="drawer-link" data-goto="mapa">Mapa</a>
-    <a class="drawer-link" data-goto="login" id="loginLink">Inicio de sesión</a>
-    <a class="drawer-link admin-only" data-goto="admin" id="adminLink" hidden>Panel admin</a>
-    <a class="drawer-link admin-only" id="logoutBtn" hidden>Cerrar sesión</a>
-  </aside>
+  <!-- Login -->
+  <section id="login" class="login-section">
+    <h2>🔑 Acceso Administrador</h2>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Correo" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit">Ingresar</button>
+    </form>
+    <p id="login-error" class="error"></p>
+  </section>
 
-  <!-- CONTENIDO -->
-  <main>
-    <!-- INICIO -->
-    <section id="inicio" class="section hero">
-      <div class="hero-content">
-        <h1>Auténtico Sabor Americano</h1>
-        <p>Brisket ahumado, ribs con salsa BBQ casera y burgers smash. <br/>Rápido, moderno y 100% real.</p>
-        <a class="btn primary" data-goto="menu">Ver menú</a>
-      </div>
-    </section>
+  <!-- Admin -->
+  <section id="admin" class="admin-section hidden">
+    <h2>⚙️ Panel Administrador</h2>
+    <div class="admin-controls">
+      <button id="logout-btn" class="logout-btn">Cerrar Sesión</button>
+    </div>
+    
+    <h3>Agregar Nuevo Producto</h3>
+    <form id="product-form">
+      <input type="text" id="product-name" placeholder="Nombre del producto" required>
+      <input type="number" id="product-price" placeholder="Precio (ARS)" required min="0">
+      <select id="product-category" required>
+        <option value="">Seleccionar categoría</option>
+        <option value="Pizzas">Pizzas</option>
+        <option value="Parrilla">Parrilla</option>
+        <option value="Bebidas">Bebidas</option>
+        <option value="Postres">Postres</option>
+      </select>
+      <button type="submit">Agregar Producto</button>
+    </form>
+    
+    <h3>Gestionar Productos Existentes</h3>
+    <div class="admin-categories">
+      <button class="admin-category-btn active" data-category="Pizzas">Pizzas</button>
+      <button class="admin-category-btn" data-category="Parrilla">Parrilla</button>
+      <button class="admin-category-btn" data-category="Bebidas">Bebidas</button>
+      <button class="admin-category-btn" data-category="Postres">Postres</button>
+    </div>
+    <div id="admin-items" class="admin-items"></div>
+  </section>
 
-    <!-- MENÚ (CATÁLOGO) -->
-    <section id="menu" class="section">
-      <header class="section-header">
-        <h2>Menú</h2>
-        <div class="filters">
-          <button class="chip active" data-filter="all">Todo</button>
-          <button class="chip" data-filter="burgers">Burgers</button>
-          <button class="chip" data-filter="ribs">Ribs</button>
-          <button class="chip" data-filter="sides">Acompañamientos</button>
-          <button class="chip" data-filter="drinks">Bebidas</button>
-        </div>
-      </header>
-      <div class="grid" id="productsGrid">
-        <!-- JS renderiza los productos -->
-      </div>
-      <div class="cta-row">
-        <a href="https://wa.me/5491123456789?text=Hola%20quiero%20hacer%20un%20pedido%20en%20La%20Barbacoa%20USA" class="btn wide">📲 Pedido rápido</a>
-      </div>
-    </section>
+  <!-- Ubicación -->
+  <section id="ubicacion" class="ubicacion-section">
+    <h2>📍 Nuestra Ubicación</h2>
+    <div class="map-container">
+      <iframe 
+        src="https://www.google.com/maps?q=Rivadavia+241,+Cruz+del+Eje,+Córdoba,+Argentina&output=embed" 
+        width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+  </section>
 
-    <!-- MAPA -->
-    <section id="mapa" class="section">
-      <header class="section-header">
-        <h2>Encontranos</h2>
-      </header>
-      <div class="map-wrap">
-        <iframe
-          title="Mapa La Barbacoa USA"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=Texas%20BBQ&output=embed">
-        </iframe>
-        <div class="map-info">
-          <h3>Horarios</h3>
-          <ul>
-            <li>Lun-Jue: 12:00–23:00</li>
-            <li>Vie-Sáb: 12:00–01:00</li>
-            <li>Dom: 12:00–22:00</li>
-          </ul>
-          <p class="muted">Reservas y pedidos por WhatsApp.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- LOGIN -->
-    <section id="login" class="section">
-      <header class="section-header">
-        <h2>Inicio de sesión</h2>
-      </header>
-      <form id="loginForm" class="card form">
-        <label>
-          Usuario
-          <input type="text" id="user" placeholder="admin" autocomplete="username"/>
-        </label>
-        <label>
-          Contraseña
-          <input type="password" id="pass" placeholder="••••" autocomplete="current-password"/>
-        </label>
-        <button type="submit" class="btn primary">Ingresar</button>
-        <p class="muted small">Demo: <b>admin</b> / <b>1234</b></p>
-        <p id="loginMsg" class="msg"></p>
-      </form>
-    </section>
-
-    <!-- ADMIN -->
-    <section id="admin" class="section" hidden>
-      <header class="section-header">
-        <h2>Panel administrador</h2>
-        <p class="muted">Agregá, editá o eliminá productos. (Demo con almacenamiento local)</p>
-      </header>
-
-      <div class="admin-layout">
-        <!-- FORMULARIO -->
-        <form id="productForm" class="card form">
-          <input type="hidden" id="productId"/>
-          <div class="form-row">
-            <label>
-              Nombre
-              <input type="text" id="name" placeholder="BBQ Burger" required/>
-            </label>
-            <label>
-              Precio (USD)
-              <input type="number" step="0.01" id="price" placeholder="9.99" required/>
-            </label>
-          </div>
-          <label>
-            Categoría
-            <select id="category" required>
-              <option value="burgers">Burgers</option>
-              <option value="ribs">Ribs</option>
-              <option value="sides">Acompañamientos</option>
-              <option value="drinks">Bebidas</option>
-            </select>
-          </label>
-          <label>
-            Descripción
-            <textarea id="desc" rows="3" placeholder="Carne jugosa, cheddar, cebolla crispy y salsa BBQ." required></textarea>
-          </label>
-          <label>
-            URL de imagen
-            <input type="url" id="img" placeholder="https://.../burger.jpg" required/>
-          </label>
-
-          <div class="form-actions">
-            <button type="submit" class="btn primary" id="saveBtn">Guardar</button>
-            <button type="reset" class="btn ghost" id="cancelEdit" hidden>Cancelar edición</button>
-          </div>
-          <p id="formMsg" class="msg"></p>
-        </form>
-
-        <!-- LISTADO -->
-        <div class="card">
-          <div class="table-head">
-            <h3>Productos</h3>
-            <button class="btn small" id="seedBtn">Cargar ejemplos</button>
-          </div>
-          <div class="table" id="adminTable">
-            <!-- JS renderiza filas -->
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    © 2025 La Barbacoa ARG — Demo creada por mi negocio en web
+  <footer>
+    <p>© 2025 La Barbacoa - Todos los derechos reservados</p>
   </footer>
+
+  <!-- Modal para editar producto -->
+  
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
