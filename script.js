@@ -23,20 +23,20 @@ function initializeApp() {
 function loadProducts() {
   const defaultProducts = {
     "Pizzas": [
-      { name: "Pizza Muzza", price: 3000 },
-      { name: "Pizza Napolitana", price: 3500 }
+      { name: "Pizza Muzza", price: 15000 },
+      { name: "Pizza Napolitana", price: 18000 }
     ],
     "Parrilla": [
-      { name: "Asado de tira", price: 6000 },
-      { name: "Choripán", price: 2500 }
+      { name: "Asado de tira", price: 22000 },
+      { name: "Choripán", price: 17000},
     ],
     "Bebidas": [
-      { name: "Coca-Cola 1.5L", price: 1800 },
-      { name: "Cerveza Quilmes", price: 2200 }
+      { name: "Coca-Cola 1.5L", price: 4500 },
+      { name: "Cerveza Quilmes", price: 6000 }
     ],
     "Postres": [
-      { name: "Flan Casero", price: 2000 },
-      { name: "Helado", price: 2500 }
+      { name: "Flan Casero", price: 6000 },
+      { name: "Helado", price: 6500 }
     ]
   };
   
@@ -351,4 +351,5 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       });
     }
   });
+
 });
